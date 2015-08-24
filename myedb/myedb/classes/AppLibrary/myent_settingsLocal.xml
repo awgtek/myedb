@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+  <NumGroupedItemsType1Max>50</NumGroupedItemsType1Max>
+  <NumGroupedItemsType2Max>50</NumGroupedItemsType2Max>
+  <NumGroupedItemsType3Max>1</NumGroupedItemsType3Max>
+  <eg_type__featured>1</eg_type__featured>
+  <eg_type__populartrades>2</eg_type__populartrades>
+  <eg_type__tradeoftheday>3</eg_type__tradeoftheday>
+  <std_email_from>a_george07@comcast.net</std_email_from>
+  <smtp_server>smtp.comcast.net</smtp_server>
+  <smtp_user>a_george07@comcast.net</smtp_user>
+  <smtp_pass>43comsonLite</smtp_pass></config>

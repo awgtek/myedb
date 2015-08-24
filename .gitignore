@@ -1,0 +1,12 @@
+# User-specified files
+*.suo
+*.bak2
+*.bak
+
+# Build results
+
+
+_notes/
+thirdparty/
+[Oo]bj/
+

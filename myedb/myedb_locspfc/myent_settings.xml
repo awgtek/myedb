@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config>
+  <NumGroupedItemsType1Max>50</NumGroupedItemsType1Max>
+  <NumGroupedItemsType2Max>50</NumGroupedItemsType2Max>
+  <NumGroupedItemsType3Max>1</NumGroupedItemsType3Max>
+  <eg_type__featured>1</eg_type__featured>
+  <eg_type__populartrades>2</eg_type__populartrades>
+  <eg_type__tradeoftheday>3</eg_type__tradeoftheday>
+  <std_email_from>youremail@email.com</std_email_from>
+  <smtp_server>localhost</smtp_server>
+  <smtp_user></smtp_user>
+  <smtp_pass></smtp_pass>
+  <developer_email>youremail@email.com</developer_email>
+  <NumGroupItemsType1Display>4</NumGroupItemsType1Display>
+  <NumGroupItemsType2Display>8</NumGroupItemsType2Display>
+  <NumGroupItemsType3Display>1</NumGroupItemsType3Display>
+  <registration_approver_email>youremail@email.com</registration_approver_email></config>

@@ -1,0 +1,517 @@
+<div style='position: absolute;z-index: 1;top:1050px;'><table border=1><tr><td valign='top'></td><td><xmp><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:pl="urn:myedb:propertylist"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Order History </title><script type="text/javascript">
+	var page_no = 1;
+	var sort_order = "desc";
+	var order_by = "date_added";
+	
+    function revealDiv(n)
+    {
+		page_no = n;//old function for single eid: get_product_order_history_page_xml
+		var url = '?target_component[]=TransMgmtFacade&target_function[]=get_order_history_page_xml&'+
+		
+		'o='+order_by+'&od='+sort_order+'&pgn='+page_no+'&OF_passthru='+
+		'admin_order_history_table'
+		
+	//	HTML_AJAX.replace("order_history_page_div", );
+
+    	HTML_AJAX.grab(url,grabCallback);
+  	}
+	
+	function grabCallback(result) {
+    	document.getElementById('order_history_page_div').innerHTML = result;
+
+		//setTimeout(pagerLinks(n), 5000)
+		pagerLinks(page_no);
+
+    }
+	function pagerLinks(n)
+	{
+		HTML_AJAX.replace('target', 'index.php?target_component[]=RecordIniFacade&target_function[]=donothing&output_function=output_html&pageID='+n);
+	
+	}
+    </script><link xmlns="" href="/stylesheets/main_style.css" rel="stylesheet" type="text/css">
+<script xmlns="" type="text/javascript">
+function staticLoadScript(url)
+{
+   document.write('<script src="', url, '" type="text/JavaScript"><\/script>');
+}
+
+//staticLoadScript("/myedb" + "/thirdparty/scriptaculous/lib/prototype.js");
+
+
+function dhtmlLoadScriptTop(url)
+{
+   var e = document.createElement("script");
+   e.src = url;
+   e.type="text/javascript";
+  // document.getElementsByTagName("head")[0].appendChild(e); 
+   document.getElementsByTagName("head")[0].insertBefore(e,document.getElementsByTagName("head")[0].firstChild);
+}
+
+function dhtmlLoadScript(url)
+{
+   var e = document.createElement("script");
+   e.src = url;
+   e.type="text/javascript";
+   document.getElementsByTagName("head")[0].appendChild(e); 
+  // document.getElementsByTagName("head")[0].insertBefore(e,document.getElementsByTagName("head")[0].firstChild);
+}
+
+var scripts_to_load = new Array;
+scripts_to_load.push( "/thirdparty/pure-pure-200e10d/libs/prototype.js");
+//scripts_to_load.push( "/thirdparty/scriptaculous/lib/prototype.js");
+//scripts_to_load.push( "/thirdparty/scriptaculous/src/scriptaculous.js");
+scripts_to_load.push( "/thirdparty/scriptaculous-js-1.8.3/src/scriptaculous.js");
+scripts_to_load.push( "/thirdparty/scriptaculous-js-1.8.3/src/effects.js");
+scripts_to_load.push( "/thirdparty/madrobby-scriptaculous-299f8b9/src/controls.js");
+scripts_to_load.push( "/thirdparty/pure-pure-200e10d/libs/pure.js"); //place under prototype.js but before jquery.js to ensure pure loads prototype
+scripts_to_load.push( "/js/list_shift.js");
+scripts_to_load.push( "/includes/js/page_functions.js");
+scripts_to_load.push( "/includes/md5.js");
+//scripts_to_load.push( "/thirdparty/jquery/jquery-latest.js");
+scripts_to_load.push( "/thirdparty/pure-pure-200e10d/libs/jquery.js");
+scripts_to_load.push( "/js/ajaxpost.js");
+scripts_to_load.push( "/server.php?client=all");
+
+//var scripts_to_load2 = new Array; //second batch of scripts to load that depend on the first
+
+
+function load_include_scripts()
+{ 
+	//for (i=scripts_to_load.length-1; i >= 0; i--)
+	for (i=0; i < scripts_to_load.length; i++)
+	{
+	//   dhtmlLoadScript("/myedb" + scripts_to_load[i]);
+	   staticLoadScript("/myedb" + scripts_to_load[i]); //must use static or else order of files loaded is unpredictable and IE gives errors due to mismatched dependencies among the js files
+	}
+}
+
+</script><script xmlns="">
+	var regex_exceptions_hash = new Object();//when shown all shown ids added as regex key so that they are shown excepting the rule of not showing 'epi0ron'
+	function validate_inputs()
+	{	
+		var retval = true;	
+		var input_field = "";
+		var alertmsg = "";
+		
+
+		if (!retval)
+		{
+          alert(alertmsg);
+		}
+		return retval;
+	}
+      function testInfo(phoneInput, re)
+      {
+	  	var retval = true;
+        retval = re.exec(phoneInput.value);
+		return retval;
+      }
+    //  var re = /\(?\d{3}\)?([-\/\.])\d{3}\1\d{4}/;
+      function testInfoOld(ctlInput, v_regex)
+      {
+		var re = new RegExp(v_regex);
+	  	var retval = true;
+        retval = re.exec(ctlInput.value);//alert("I'm here" + v_regex + ctlInput.value + retval);
+		return retval;
+      }
+</script><script xmlns=""></script><script xmlns="" language="javascript">
+		//per http://docs.jquery.com/Frequently_Asked_Questions#How_do_I_select_an_element_that_has_weird_characters_in_its_ID.3F
+		 function jq(myid)
+		  { return '#'+myid.replace(/:/g,"\\:").replace(/\./g,"\\.").replace(/\[/g,"\\[").replace(/\]/g,"\\]");}
+	</script><script xmlns="" language="javascript">
+	/*	String.prototype.trim = function () {
+		return this.replace(/^\s*|\s*$/,"");
+		}*/
+String.prototype.trim = function() {
+	return this.replace(/^\s+|\s+$/g,"");
+}
+</script><script xmlns="">
+function TextFieldIsEmpty(aTextField) {
+   if ((aTextField.value.length==0) ||
+   (aTextField.value==null)) {
+      return true;
+   }
+   else if (aTextField.value.trim()=="")
+   {
+   		return true;
+   }
+   else { return false; }
+}
+// Radio Button Validation
+// copyright Stephen Chapman, 15th Nov 2004,14th Sep 2005
+// you may copy this function but please keep the copyright notice with it
+function valButton(btn) {
+    var cnt = -1;
+    for (var i=btn.length-1; i > -1; i--) {
+        if (btn[i].checked) {cnt = i; i = -1;}
+    }
+    if (cnt > -1) return btn[cnt].value;
+    else return null;
+}
+             
+</script><script xmlns="">
+
+	load_include_scripts();
+//     jQuery.noConflict();
+window.onload = function()
+{
+     //jQuery.noConflict(); //NOTE!! doesn't work, must ...noConflict at bottom of referenced jquery.js
+
+//foo(); //test printStackTrace();
+}
+function foo() {  
+
+    var blah;  
+
+    bar("blah");  
+
+}  
+
+   
+
+function bar(blah) {  
+
+    var stuff;  
+
+    thing();  
+
+}  
+
+   
+
+function thing() {  
+
+    if (true) { //your error condition here  
+
+        printStackTrace();  
+
+    }  
+
+}  
+
+   
+
+
+
+</script><style>
+			th {text-align:center;}
+		</style></head><body><table xmlns="" width="100%" border="0" cellspacing="0" align="left" cellpadding="0" style="background-color:#FFFFFF;">
+<tr><td colspan="2"><table border="0" width="100%" cellspacing="0" cellpadding="0">
+<tr><th colspan="2" valign="top" scope="col"><div align="left"><a href="index.php"><img src="/images/header-admin.gif" alt="New England Trade" border="0"></a></div></th></tr>
+<tr style="background-image:url(../../../images/admin-functions.gif); background-repeat:no-repeat;">
+<td valign="top" nowrap><div class="top" style="width:179px; height:23px;padding-top:17px;">Admin Function</div></td>
+<td valign="top" width="100%"><div class="top-nav" style="height:23px;padding-top:17px;">
+<a href="index.php">Admin Home</a>  |  
+	<a href="index.php?ntctf=1&amp;type_id=4&amp;OF_passthru=show_order_history">Travel Requests</a>  |  
+	<a href="index.php?ntctf=1&amp;OF_passthru=show_order_history">Manage Orders</a>  |  <a href="index.php?target_component%5B%5D=RecordIniFacade&amp;target_function%5B%5D=search_by_prop_val_contains&amp;spi=8&amp;spv=&amp;type_id=3&amp;OF_passthru=showpersonrecs">BLOG</a>  |  <a href="#">Member Site</a>  |  
+	<a href="index.php?target_component=SecurityOperationsFacade&amp;target_function=process_logout">
+	Logout
+	</a>
+</div></td>
+</tr>
+</table></td></tr>
+<tr>
+<td width="179" nowrap valign="top" style="background-image:url(/images/left-nav-repeat.gif); "><div class="leftnavigation" style="width:179px;">
+<div class="nav-top" style="padding-top:5px; font-weight:bold; line-height:35px; font-size:13px; padding-left:10px; height:160px;font-family:Arial, Helvetica, sans-serif; padding-right:3px;">
+<a href="index.php?target_component%5B%5D=RecordIniFacade&amp;target_function%5B%5D=donothing&amp;OF_passthru=manage_products">Manage Products</a><br><a href="index.php?target_component%5B%5D=RecordIniFacade&amp;target_function%5B%5D=initialize&amp;eid=0&amp;type_id=2&amp;output_function=show_record_for_edit">Insert Ticket Item</a><br><a href="index.php?target_component%5B%5D=RecordIniFacade&amp;target_function%5B%5D=initialize&amp;eid=0&amp;type_id=5&amp;OF_passthru=show_info_record_for_edit">Insert Informational Item</a><br><a href="index.php?target_component%5B%5D=RecordIniFacade&amp;target_function%5B%5D=initialize&amp;eid=0&amp;type_id=4&amp;OF_passthru=show_info_record_for_edit">Insert Travel Item</a><br><a href="index.php?target_component%5B%5D=RecordIniFacade&amp;target_function%5B%5D=initialize&amp;eid=0&amp;type_id=1&amp;output_function=show_record_for_edit">Insert Gift Certificate</a>
+</div>
+<br><br><div class="nav-bottom">
+<a href="index.php?target_component%5B%5D=RecordIniFacade&amp;target_function%5B%5D=initialize&amp;eid=0&amp;type_id=3&amp;OF_passthru=edit_person_member">Insert Member</a><br><a href="index.php?target_component%5B%5D=RecordIniFacade&amp;target_function%5B%5D=initialize&amp;eid=0&amp;type_id=3&amp;OF_passthru=edit_person_admin">Insert Admin User</a><br><a href="index.php?target_component%5B%5D=RecordIniFacade&amp;target_function%5B%5D=filtered_search_by_mixed_criteria&amp;cspi%5B%5D=7&amp;cspv%5B%5D=&amp;cspt%5B%5D=3&amp;spt%5B%5D=3&amp;spi%5B%5D=25&amp;spv%5B%5D=0&amp;spc%5B%5D=1&amp;OF_passthru=show_admin_personrecs&amp;init_req=1">List Admins</a><br><a href="index.php?target_component%5B%5D=RecordIniFacade&amp;target_function%5B%5D=filtered_search_by_mixed_criteria&amp;cspi%5B%5D=7&amp;cspv%5B%5D=&amp;cspt%5B%5D=3&amp;spt%5B%5D=3&amp;spi%5B%5D=25&amp;spv%5B%5D=0&amp;spc%5B%5D=-1&amp;OF_passthru=show_member_personrecs&amp;noencaps=1&amp;init_req=1">List Members</a><br><a href="index.php?target_component%5B%5D=ClientServerDataOps&amp;target_function%5B%5D=initialize_lookup_table&amp;table_name=acctmgr&amp;OF_passthru=lookuptable_editor">Edit Account Managers</a><br><a href="index.php?target_component%5B%5D=ClientServerDataOps&amp;target_function%5B%5D=initialize_lookup_table&amp;table_name=category&amp;OF_passthru=lookuptable_editor">Manage Categories</a><br><a href="index.php?target_component%5B%5D=ClientServerDataOps&amp;target_function%5B%5D=initialize_sub_lookup_table&amp;table_name=subcategory&amp;OF_passthru=sublookuptable_editor">Manage Subcategories</a><br><a href="index.php?target_component%5B%5D=ClientServerDataOps&amp;target_function%5B%5D=initialize_lookup_table&amp;table_name=status&amp;OF_passthru=lookuptable_editor">Edit Status codes</a><br><a href="index.php?target_component%5B%5D=MetaDataOps&amp;target_function%5B%5D=FI_get_xml_list&amp;OF_passthru=edit_entity_groupings">Featured Items</a><br><a href="index.php?target_component%5B%5D=RecordIniFacade&amp;target_function%5B%5D=initialize&amp;eid=11&amp;type_id=15&amp;OF_passthru=edit_site_variables">Site Settings</a><br><a href="#">Manage Members</a><br><a href="#">Export</a><br><a href="#">Statistics</a><br>
+   </div>
+</div></td>
+<td valign="top"><div class="bodytext2"><table border="0" cellspacing="0" width="100%" cellpadding="0">
+<tr>
+<td valign="top" style="background-image:url(/images/green.jpg); padding-top:10px; padding-left:30px; padding-bottom:10px;">
+<script type="text/javascript">
+    function updateSubcatSelectDiv(thediv, n)
+    {
+		var url = '?target_component[]=ClientServerDataOps&target_function[]=initialize_sub_lookup_table'+'&OF_passthru=subcat_select&table_name=subcategory&cat_id='+n;
+ //   HTML_AJAX.replace(thediv, url );
+    document.getElementById(thediv).innerHTML = HTML_AJAX.grab(url);
+
+    }
+    </script><script>
+		function handle_select_page_rows_count(obj)
+		{
+			//alert('ischecked? ' + obj.checked + ' value: ' + obj.value + obj.options[obj.selectedIndex].text);
+			var url;
+		//	url = '?target_component[]=MetaDataOps&target_function[]=' + target_function + '&output_function=max_grouped_items_reached&eid='+eid+'&grptype='+obj.name;
+			url = "?target_component[]=RecordIniFacade&target_function[]=update_record&output_function=do_nothing&rec_eid=&rec_type_id=3&="  + obj.value;
+		//	HTML_AJAX.grab(url);
+			HTML_AJAX.grab(url,grabCallback_handle_select_page_rows_count);
+		}
+		function grabCallback_handle_select_page_rows_count(result)
+		{ //alert(result);
+		}
+	</script><div class="bodytext2"><form method="post" action="index.php">
+<input type="hidden" name="init_post" value="1"><input type="hidden" name="cspv_input" id="cspv_input"><input type="hidden" name="cspve_input" id="cspve_input" value=""><input type="hidden" name="cspvi_input" id="cspvi_input" value=""><table cellpadding="0" cellspacing="0" width="100%">
+<tr><td>
+			Rows per page:
+	<select onchange="handle_select_page_rows_count(this)"><option value="25">
+		25</option>
+<option value="50">
+		50</option>
+<option value="100">
+		100</option>
+<option value="10000">
+		All</option></select><span class="search">search:   </span><input type="text" name="cspv[]" id="cspv_id" value="">  
+					<label for="cspve_id">Exact match</label><input type="checkbox" name="cspve[]" id="cspve_id"><label for="cspvi_id">Inverse match</label><input type="checkbox" name="cspvi[]" id="cspvi_id">
+					 					
+					<input type="submit" value="GO" onclick="
+							$('cspv_input').value = $('cspv_id').value;
+							$('cspve_input').value = $('cspve_id').checked;
+							$('cspvi_input').value = $('cspvi_id').checked;
+							
+							$('sel_srtpi_pv').value = $('sel_srtpi').selectedIndex;
+							$('sel_spv2_pv').value = $('sel_spv2').selectedIndex;
+							$('sel_spv3_pv').value = $('sel_spv3').selectedIndex;
+							$('sel_spv1_pv').value = $('sel_spv1').selectedIndex;
+							$('sel_type_id_pv').value = $('sel_type_id').selectedIndex;
+							$('sel_cspi1_pv').value = $('sel_cspi1').selectedIndex;
+
+						">
+</td></tr>
+<tr>
+<td>
+<input type="hidden" id="sel_cspi1_pv" name="sel_cspi1_pv"><select name="cspi[]" id="sel_cspi1"><option value="1">By Name</option>
+<option value="2">By Description</option>
+<option value="12">By City</option>
+<option value="13">By State</option>
+<option value="33">By Account No.</option>
+<option value="53">By Account Manager</option>
+<option value="54">By Keyword</option>
+<option value="15">By Quantity</option>
+<option value="by_eid">By Product Link Number</option></select><input type="hidden" id="sel_type_id_pv" name="sel_type_id_pv"><select name="type_id" id="sel_type_id"><option value="0">Any type</option>
+<option value="1">Gift Certificate</option>
+<option value="2">Ticket type</option>
+<option value="4">Travel type</option>
+<option value="5">Informational type</option></select><input type="hidden" name="spi[]" value="6"><input type="hidden" id="sel_spv1_pv" name="sel_spv1_pv"><select name="spv[]" onchange="updateSubcatSelectDiv('subcatselectdiv',options[selectedIndex].value)" id="sel_spv1"><option value="0">Any Category</option>
+<option value="12">Advertising</option>
+<option value="2">Cape Cod</option>
+<option value="16">Classifieds</option>
+<option value="19">Entertainment</option>
+<option value="14">Gift Certificates</option>
+<option value="13">Member Directory</option>
+<option value="17">Restaurant</option>
+<option value="20">Search by Location</option>
+<option value="9">Sports &amp; Tickets</option>
+<option value="15">Spring Hot Trades</option>
+<option value="21">Summer Trades</option>
+<option value="11">Travel</option>
+<option value="3">What's New?</option></select><span id="subcatselectdiv"></span><input type="hidden" name="spi[]" value="35"><input type="hidden" id="sel_spv2_pv" name="sel_spv2_pv"><select name="spv[]" id="sel_spv2"><option value="0">Any Status</option>
+<option value="2">Active - In Directory</option>
+<option value="6">Broker Active - Do Not List</option>
+<option value="5">Delete</option>
+<option value="3">Standby - Not in Directory</option></select><input type="hidden" id="sel_srtpi_pv" name="sel_srtpi_pv"><select name="srtpi[]" id="sel_srtpi"><option value="0">Sort by</option>
+<option value="1">By Name</option>
+<option value="12">By City</option>
+<option value="13">By State</option>
+<option value="33">By Account No.</option>
+<option value="53">By Account Manager</option>
+<option value="35">By Status</option></select><input type="hidden" name="target_component[]" value="RecordIniFacade"><input type="hidden" name="target_function[]" value="filtered_search_by_mixed_criteria"><input type="hidden" name="output_function" value="admin_paged_content"><input type="button" value="reset" onclick="reset_search_controls();">
+</td>
+<script>
+			
+				$('sel_srtpi')[0].selected = true;
+				$('sel_spv2')[0].selected = true;	
+				$('sel_spv1')[0].selected = true;
+				updateSubcatSelectDiv('subcatselectdiv',$('sel_spv1')[$('sel_spv1').selectedIndex].value);//alert($('sel_spv2')[$('sel_spv2').selectedIndex].value);
+				$('sel_spv3')[0].selected = true;
+				$('sel_type_id')[0].selected = true;
+				$('sel_cspi1')[0].selected = true;
+				if (jQuery('#cspve_input').val() == 'true')
+				{
+					jQuery('#cspve_id').attr('checked','checked'); //add the atrribute checked
+				}
+				else
+				{
+					jQuery('#cspve_id').removeAttr("checked");     //remove the attribute checked
+				}
+				if (jQuery('#cspvi_input').val() == 'true')
+				{
+					jQuery('#cspvi_id').attr('checked','checked'); //add the atrribute checked
+				}
+				else
+				{
+					jQuery('#cspvi_id').removeAttr("checked");     //remove the attribute checked
+				}
+			//	alert(jQuery('#cspve_input').val());
+        
+			</script><script>
+				function reset_search_controls() 
+				{
+					$("cspv_id").value = "";
+					$("cspve_id").checked = "";
+					$("cspvi_id").checked = "";
+					$('sel_srtpi')[0].selected = true;
+					$('sel_spv2')[0].selected = true;	
+					$('sel_spv1')[0].selected = true;
+					updateSubcatSelectDiv('subcatselectdiv',$('sel_spv1')[$('sel_spv1').selectedIndex].value);//alert($('sel_spv2')[$('sel_spv2').selectedIndex].value);
+					$('sel_spv3')[0].selected = true;
+					$('sel_type_id')[0].selected = true;
+					$('sel_cspi1')[0].selected = true;
+				}
+			</script>
+</tr>
+</table>
+</form></div>
+</td>
+<td width=""></td>
+</tr>
+<tr><td width="100%" valign="top" colspan="3"><div class="products-header">
+		Order History 
+		</div></td></tr>
+<tr><td width="100%" align="left" valign="top" colspan="3"><div id="site" class="main_content_padding"><div class="bodytext2">
+<script type="text/javascript" src="/server.php?client=all"></script><center><table width="100%" cellpadding="0" cellspacing="0"><tr>
+<td><div id="target">Searching</div></td>
+<td>
+		sort by: 
+		<a href="javascript:revealDiv_online('date_added');">Date Added</a> <a href="javascript:revealDiv_online('hc_status');">Order Status</a> <a href="javascript:revealDiv_online('n_order_id');">Order Number</a> <a href="javascript:revealDiv_online('n_co_acctno');">Account #</a> <a href="javascript:revealDiv_online('n_prod_name');">Product Name</a> <a href="javascript:revealDiv_online('n_co_name');">Customer Name</a> <a href="javascript:revealDiv_online('prodrefno');">Ref#</a> 	
+			Ascending? <input type="checkbox" onclick="javascript:set_sort_order()" id="chk_sort_order_change">
+</td>
+</tr></table></center>
+<div id="order_history_page_div"></div>
+</div></div></td></tr>
+</table></div></td>
+</tr>
+<tr><td colspan="2" valign="top"><div class="footer">© 2008 New England Trade    Site Design: <a href="http://www.entertainmentimage.com" target="_blank">EIC</a>
+</div></td></tr>
+</table></body><script type="text/javascript">
+	revealDiv(1); 
+	function revealDiv_online(o)
+	{
+		order_by = o;
+		revealDiv(page_no);
+	}
+	function revealDivCurrentCallBack(result)
+	{
+		alert(result);
+		revealDiv(page_no);
+	}
+	function set_sort_order()
+	{// alert('hello' + jQuery('#chk_sort_order_change:checked').val());
+		var asc = jQuery('#chk_sort_order_change').is(':checked');
+		//alert("hello"+ jQuery('#chk_sort_order_change').is(':checked'));
+		if (asc)
+		{
+			sort_order = "asc";
+		}
+		else
+		{ 
+			sort_order = "desc";
+		}
+	}
+</script></html>
+</xmp></td></tr></table><xmp><?xml version="1.0" encoding="UTF-8"?>
+<myedbroot><lookup_table_acctmgrs><acctmgr acctmgr_id="7" is_disabled="">Broker 7</acctmgr><acctmgr acctmgr_id="5" is_disabled="">Gary Oshry</acctmgr><acctmgr acctmgr_id="13" is_disabled="">House</acctmgr><acctmgr acctmgr_id="12" is_disabled="">Jennifer Crowley</acctmgr><acctmgr acctmgr_id="6" is_disabled="">Ken Meharg</acctmgr><acctmgr acctmgr_id="4" is_disabled="">Kraig Bloom</acctmgr><acctmgr acctmgr_id="9" is_disabled="">Larry Conn</acctmgr><acctmgr acctmgr_id="11" is_disabled="">Lisa Cosseboom</acctmgr><acctmgr acctmgr_id="10" is_disabled="">Ralene Clark</acctmgr><acctmgr acctmgr_id="8" is_disabled="">Sue Meharg</acctmgr></lookup_table_acctmgrs><categories><category cat_id="12" is_disabled="0"><cattypes><cattype>5</cattype></cattypes><catval>Advertising</catval></category><category cat_id="2" is_disabled="0"><cattypes><cattype>4</cattype><cattype>5</cattype><cattype>1</cattype></cattypes><catval>Cape Cod</catval></category><category cat_id="16" is_disabled="0"><cattypes/><catval>Classifieds</catval></category><category cat_id="19" is_disabled="0"><cattypes><cattype>5</cattype><cattype>1</cattype></cattypes><catval>Entertainment</catval></category><category cat_id="14" is_disabled="0"><cattypes><cattype>1</cattype><cattype>5</cattype></cattypes><catval>Gift Certificates</catval></category><category cat_id="13" is_disabled="0"><cattypes><cattype>5</cattype><cattype>1</cattype><cattype>4</cattype></cattypes><catval>Member Directory</catval></category><category cat_id="17" is_disabled="0"><cattypes><cattype>1</cattype><cattype>5</cattype></cattypes><catval>Restaurant</catval></category><category cat_id="20" is_disabled="0"><cattypes><cattype>1</cattype><cattype>5</cattype><cattype>4</cattype><cattype>2</cattype></cattypes><catval>Search by Location</catval></category><category cat_id="9" is_disabled="0"><cattypes><cattype>2</cattype><cattype>1</cattype></cattypes><catval>Sports &amp; Tickets</catval></category><category cat_id="15" is_disabled="0"><cattypes><cattype>5</cattype></cattypes><catval>Spring Hot Trades</catval></category><category cat_id="21" is_disabled="0"><cattypes><cattype>1</cattype><cattype>5</cattype></cattypes><catval>Summer Trades</catval></category><category cat_id="11" is_disabled="0"><cattypes><cattype>4</cattype><cattype>1</cattype><cattype>5</cattype></cattypes><catval>Travel</catval></category><category cat_id="3" is_disabled="0"><cattypes/><catval>What's New?</catval></category><category cat_id="18" is_disabled="1"><cattypes><cattype>5</cattype></cattypes><catval>Winter Hot Trades</catval></category></categories><subcategories><subcategory subcat_id="72" subcat_name="Accountants" cat_id="13" is_disabled="0"/><subcategory subcat_id="73" subcat_name="Acupunture" cat_id="13" is_disabled="0"/><subcategory subcat_id="359" subcat_name="Advertising" cat_id="13" is_disabled="0"/><subcategory subcat_id="75" subcat_name="Advertising Agency" cat_id="13" is_disabled="0"/><subcategory subcat_id="74" subcat_name="Advertising Specialties" cat_id="13" is_disabled="0"/><subcategory subcat_id="381" subcat_name="Air Conditioning" cat_id="13" is_disabled="0"/><subcategory subcat_id="444" subcat_name="Air Duct Cleaning" cat_id="13" is_disabled="0"/><subcategory subcat_id="196" subcat_name="Airport Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="66" subcat_name="American" cat_id="17" is_disabled="0"/><subcategory subcat_id="340" subcat_name="Amusement Park" cat_id="19" is_disabled="0"/><subcategory subcat_id="81" subcat_name="Amusement Parks" cat_id="13" is_disabled="0"/><subcategory subcat_id="82" subcat_name="Animal Control" cat_id="13" is_disabled="0"/><subcategory subcat_id="83" subcat_name="Answering Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="485" subcat_name="Antiques" cat_id="13" is_disabled="0"/><subcategory subcat_id="84" subcat_name="Appliance Repair" cat_id="13" is_disabled="0"/><subcategory subcat_id="353" subcat_name="Arcade" cat_id="19" is_disabled="0"/><subcategory subcat_id="85" subcat_name="Architect" cat_id="13" is_disabled="0"/><subcategory subcat_id="486" subcat_name="Aromatherapy" cat_id="13" is_disabled="0"/><subcategory subcat_id="487" subcat_name="Art" cat_id="13" is_disabled="0"/><subcategory subcat_id="86" subcat_name="Artist" cat_id="13" is_disabled="0"/><subcategory subcat_id="336" subcat_name="Asian" cat_id="17" is_disabled="0"/><subcategory subcat_id="47" subcat_name="Attorney" cat_id="13" is_disabled="0"/><subcategory subcat_id="488" subcat_name="Auctioneer" cat_id="13" is_disabled="0"/><subcategory subcat_id="88" subcat_name="Audio Production" cat_id="13" is_disabled="0"/><subcategory subcat_id="89" subcat_name="Audio Visual Equipment" cat_id="13" is_disabled="0"/><subcategory subcat_id="429" subcat_name="Auto Accessories" cat_id="13" is_disabled="0"/><subcategory subcat_id="430" subcat_name="Auto Accessories" cat_id="14" is_disabled="0"/><subcategory subcat_id="91" subcat_name="Auto Alarms" cat_id="13" is_disabled="0"/><subcategory subcat_id="92" subcat_name="Auto Body" cat_id="13" is_disabled="0"/><subcategory subcat_id="238" subcat_name="Auto Car &amp; Truck Lettering" cat_id="13" is_disabled="0"/><subcategory subcat_id="433" subcat_name="Auto Detailing" cat_id="14" is_disabled="0"/><subcategory subcat_id="93" subcat_name="Auto Detailing" cat_id="13" is_disabled="0"/><subcategory subcat_id="94" subcat_name="Auto Glass" cat_id="13" is_disabled="0"/><subcategory subcat_id="90" subcat_name="Auto Rentals" cat_id="13" is_disabled="0"/><subcategory subcat_id="396" subcat_name="Auto Repair" cat_id="13" is_disabled="0"/><subcategory subcat_id="95" subcat_name="Auto Sales" cat_id="13" is_disabled="0"/><subcategory subcat_id="96" subcat_name="Auto Sun Roofs" cat_id="13" is_disabled="0"/><subcategory subcat_id="302" subcat_name="Awards" cat_id="13" is_disabled="0"/><subcategory subcat_id="98" subcat_name="Awning Sales" cat_id="13" is_disabled="0"/><subcategory subcat_id="272" subcat_name="Baby Gifts" cat_id="13" is_disabled="0"/><subcategory subcat_id="99" subcat_name="Bagels" cat_id="13" is_disabled="0"/><subcategory subcat_id="296" subcat_name="Bags" cat_id="13" is_disabled="0"/><subcategory subcat_id="349" subcat_name="Bakery" cat_id="17" is_disabled="0"/><subcategory subcat_id="276" subcat_name="Bakery" cat_id="13" is_disabled="0"/><subcategory subcat_id="365" subcat_name="Bakery" cat_id="14" is_disabled="0"/><subcategory subcat_id="17" subcat_name="Balloon Decorating" cat_id="13" is_disabled="0"/><subcategory subcat_id="16" subcat_name="Balloon Delivery" cat_id="13" is_disabled="0"/><subcategory subcat_id="284" subcat_name="Band" cat_id="13" is_disabled="0"/><subcategory subcat_id="251" subcat_name="Bed &amp; Breakfast" cat_id="13" is_disabled="0"/><subcategory subcat_id="7" subcat_name="Bed &amp; Breakfast" cat_id="11" is_disabled="0"/><subcategory subcat_id="436" subcat_name="Berkshires" cat_id="20" is_disabled="0"/><subcategory subcat_id="466" subcat_name="Bike Rentals" cat_id="14" is_disabled="0"/><subcategory subcat_id="465" subcat_name="Bike Rentals" cat_id="19" is_disabled="0"/><subcategory subcat_id="413" subcat_name="Bike Rentals" cat_id="13" is_disabled="0"/><subcategory subcat_id="467" subcat_name="Bike Shop" cat_id="14" is_disabled="0"/><subcategory subcat_id="415" subcat_name="Bike Shop" cat_id="13" is_disabled="0"/><subcategory subcat_id="71" subcat_name="Billboards" cat_id="12" is_disabled="0"/><subcategory subcat_id="318" subcat_name="Boat Charters" cat_id="19" is_disabled="0"/><subcategory subcat_id="423" subcat_name="Boat Cruise" cat_id="13" is_disabled="0"/><subcategory subcat_id="431" subcat_name="Boat Detailing" cat_id="13" is_disabled="0"/><subcategory subcat_id="459" subcat_name="Boat Rentals" cat_id="13" is_disabled="0"/><subcategory subcat_id="393" subcat_name="Bookkeeping" cat_id="13" is_disabled="0"/><subcategory subcat_id="316" subcat_name="Boxes" cat_id="13" is_disabled="0"/><subcategory subcat_id="59" subcat_name="Breakfast/Lunch" cat_id="17" is_disabled="0"/><subcategory subcat_id="100" subcat_name="Bridal Shows" cat_id="13" is_disabled="0"/><subcategory subcat_id="36" subcat_name="Bruins" cat_id="9" is_disabled="0"/><subcategory subcat_id="101" subcat_name="Business Consultant" cat_id="13" is_disabled="0"/><subcategory subcat_id="489" subcat_name="Cabinets" cat_id="13" is_disabled="0"/><subcategory subcat_id="397" subcat_name="Camp" cat_id="13" is_disabled="0"/><subcategory subcat_id="428" subcat_name="Candy Store" cat_id="13" is_disabled="0"/><subcategory subcat_id="427" subcat_name="Candy Store" cat_id="14" is_disabled="0"/><subcategory subcat_id="322" subcat_name="Cape Cod" cat_id="11" is_disabled="0"/><subcategory subcat_id="386" subcat_name="Cape Cod" cat_id="20" is_disabled="0"/><subcategory subcat_id="373" subcat_name="Car Rental" cat_id="13" is_disabled="0"/><subcategory subcat_id="374" subcat_name="Car Rental" cat_id="11" is_disabled="0"/><subcategory subcat_id="371" subcat_name="Car Rental" cat_id="12" is_disabled="0"/><subcategory subcat_id="27" subcat_name="Car Wash" cat_id="14" is_disabled="0"/><subcategory subcat_id="55" subcat_name="Car Wash" cat_id="13" is_disabled="0"/><subcategory subcat_id="102" subcat_name="Carpenter" cat_id="13" is_disabled="0"/><subcategory subcat_id="103" subcat_name="Carpet Cleaning" cat_id="13" is_disabled="0"/><subcategory subcat_id="288" subcat_name="Carpet Installation " cat_id="13" is_disabled="0"/><subcategory subcat_id="104" subcat_name="Carpet Sales" cat_id="13" is_disabled="0"/><subcategory subcat_id="105" subcat_name="Cash Registers" cat_id="13" is_disabled="0"/><subcategory subcat_id="106" subcat_name="Casino Nights &amp; Equipment Rentals" cat_id="13" is_disabled="0"/><subcategory subcat_id="57" subcat_name="Casual Dining" cat_id="17" is_disabled="0"/><subcategory subcat_id="33" subcat_name="Catering" cat_id="13" is_disabled="0"/><subcategory subcat_id="116" subcat_name="CD Duplication" cat_id="13" is_disabled="0"/><subcategory subcat_id="107" subcat_name="Cellular Phones" cat_id="13" is_disabled="0"/><subcategory subcat_id="37" subcat_name="Celtics" cat_id="9" is_disabled="0"/><subcategory subcat_id="446" subcat_name="Central Massachusetts" cat_id="20" is_disabled="0"/><subcategory subcat_id="108" subcat_name="Charitable Organizations" cat_id="13" is_disabled="0"/><subcategory subcat_id="402" subcat_name="Childrens Parties" cat_id="13" is_disabled="0"/><subcategory subcat_id="282" subcat_name="Chimney Cleaning &amp; Repair" cat_id="13" is_disabled="0"/><subcategory subcat_id="109" subcat_name="Chiropractor" cat_id="13" is_disabled="0"/><subcategory subcat_id="481" subcat_name="Chocolate Fountain" cat_id="13" is_disabled="0"/><subcategory subcat_id="110" subcat_name="Christmas Trees" cat_id="13" is_disabled="0"/><subcategory subcat_id="40" subcat_name="Circus" cat_id="9" is_disabled="0"/><subcategory subcat_id="111" subcat_name="Cleaning Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="112" subcat_name="Clown" cat_id="13" is_disabled="0"/><subcategory subcat_id="364" subcat_name="Coffee" cat_id="17" is_disabled="0"/><subcategory subcat_id="113" subcat_name="Coffee " cat_id="13" is_disabled="0"/><subcategory subcat_id="114" subcat_name="Coffee Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="12" subcat_name="Collectables" cat_id="16" is_disabled="0"/><subcategory subcat_id="115" subcat_name="Colleges" cat_id="13" is_disabled="0"/><subcategory subcat_id="391" subcat_name="Color Copies" cat_id="13" is_disabled="0"/><subcategory subcat_id="117" subcat_name="Computer Networks" cat_id="13" is_disabled="0"/><subcategory subcat_id="118" subcat_name="Computer Printer Repair" cat_id="13" is_disabled="0"/><subcategory subcat_id="119" subcat_name="Computer Printer Sales" cat_id="13" is_disabled="0"/><subcategory subcat_id="297" subcat_name="Computer Services" cat_id="13" is_disabled="0"/><subcategory subcat_id="120" subcat_name="Computer Training " cat_id="13" is_disabled="0"/><subcategory subcat_id="265" subcat_name="Condo" cat_id="11" is_disabled="0"/><subcategory subcat_id="121" subcat_name="Consignment Shops" cat_id="13" is_disabled="0"/><subcategory subcat_id="281" subcat_name="Construction" cat_id="13" is_disabled="0"/><subcategory subcat_id="122" subcat_name="Contact Lenses" cat_id="13" is_disabled="0"/><subcategory subcat_id="123" subcat_name="Contractor" cat_id="13" is_disabled="0"/><subcategory subcat_id="437" subcat_name="Cookie Basket" cat_id="13" is_disabled="0"/><subcategory subcat_id="124" subcat_name="Copier Repair" cat_id="13" is_disabled="0"/><subcategory subcat_id="125" subcat_name="Copier Sales" cat_id="13" is_disabled="0"/><subcategory subcat_id="126" subcat_name="Copy Writing" cat_id="13" is_disabled="0"/><subcategory subcat_id="127" subcat_name="Costumes" cat_id="13" is_disabled="0"/><subcategory subcat_id="270" subcat_name="Cottage" cat_id="11" is_disabled="0"/><subcategory subcat_id="128" subcat_name="Courier Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="129" subcat_name="Credit Card Processing Equipment" cat_id="13" is_disabled="0"/><subcategory subcat_id="277" subcat_name="Credit Repair" cat_id="13" is_disabled="0"/><subcategory subcat_id="130" subcat_name="Dance Studio" cat_id="13" is_disabled="0"/><subcategory subcat_id="400" subcat_name="Day Camp" cat_id="19" is_disabled="0"/><subcategory subcat_id="131" subcat_name="Day Care Center" cat_id="13" is_disabled="0"/><subcategory subcat_id="132" subcat_name="Day Spa" cat_id="13" is_disabled="0"/><subcategory subcat_id="278" subcat_name="Debt Consulting" cat_id="13" is_disabled="0"/><subcategory subcat_id="133" subcat_name="Deep Sea Fishing" cat_id="13" is_disabled="0"/><subcategory subcat_id="334" subcat_name="Deli" cat_id="17" is_disabled="0"/><subcategory subcat_id="452" subcat_name="Delivery Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="134" subcat_name="Dentist" cat_id="13" is_disabled="0"/><subcategory subcat_id="348" subcat_name="Dessert" cat_id="17" is_disabled="0"/><subcategory subcat_id="77" subcat_name="Direct Mail" cat_id="13" is_disabled="0"/><subcategory subcat_id="140" subcat_name="Disc Jockey" cat_id="13" is_disabled="0"/><subcategory subcat_id="309" subcat_name="Disc Jockey" cat_id="19" is_disabled="0"/><subcategory subcat_id="141" subcat_name="Document Storage" cat_id="13" is_disabled="0"/><subcategory subcat_id="54" subcat_name="Dry Cleaner" cat_id="13" is_disabled="0"/><subcategory subcat_id="25" subcat_name="Dry Cleaning" cat_id="14" is_disabled="0"/><subcategory subcat_id="144" subcat_name="Duct Cleaning" cat_id="13" is_disabled="0"/><subcategory subcat_id="31" subcat_name="Education" cat_id="13" is_disabled="0"/><subcategory subcat_id="145" subcat_name="Electrician" cat_id="13" is_disabled="0"/><subcategory subcat_id="146" subcat_name="Electrologist" cat_id="13" is_disabled="0"/><subcategory subcat_id="147" subcat_name="Employment Agency" cat_id="13" is_disabled="0"/><subcategory subcat_id="135" subcat_name="Endodontist" cat_id="13" is_disabled="0"/><subcategory subcat_id="148" subcat_name="Engraving" cat_id="13" is_disabled="0"/><subcategory subcat_id="149" subcat_name="Entertainers" cat_id="13" is_disabled="0"/><subcategory subcat_id="327" subcat_name="Entertainment" cat_id="14" is_disabled="0"/><subcategory subcat_id="325" subcat_name="Entertainment" cat_id="2" is_disabled="0"/><subcategory subcat_id="150" subcat_name="Excavation" cat_id="13" is_disabled="0"/><subcategory subcat_id="151" subcat_name="Eye Examinations" cat_id="13" is_disabled="0"/><subcategory subcat_id="152" subcat_name="Eye Glasses" cat_id="13" is_disabled="0"/><subcategory subcat_id="153" subcat_name="Eye Surgery" cat_id="13" is_disabled="0"/><subcategory subcat_id="154" subcat_name="Facials" cat_id="13" is_disabled="0"/><subcategory subcat_id="335" subcat_name="Fast Food" cat_id="17" is_disabled="0"/><subcategory subcat_id="155" subcat_name="Fax Machines" cat_id="13" is_disabled="0"/><subcategory subcat_id="156" subcat_name="Film Developing" cat_id="13" is_disabled="0"/><subcategory subcat_id="323" subcat_name="Fine Dining" cat_id="17" is_disabled="0"/><subcategory subcat_id="157" subcat_name="Fire Extinguishers" cat_id="13" is_disabled="0"/><subcategory subcat_id="344" subcat_name="Firearms Training" cat_id="13" is_disabled="0"/><subcategory subcat_id="158" subcat_name="Fitness Center" cat_id="13" is_disabled="0"/><subcategory subcat_id="159" subcat_name="Fitness Equipment" cat_id="13" is_disabled="0"/><subcategory subcat_id="160" subcat_name="Flood Restoration" cat_id="13" is_disabled="0"/><subcategory subcat_id="161" subcat_name="Floor Refinishing" cat_id="13" is_disabled="0"/><subcategory subcat_id="162" subcat_name="Floor Sanding" cat_id="13" is_disabled="0"/><subcategory subcat_id="464" subcat_name="Flooring" cat_id="14" is_disabled="0"/><subcategory subcat_id="52" subcat_name="Flooring" cat_id="13" is_disabled="0"/><subcategory subcat_id="435" subcat_name="Florida" cat_id="20" is_disabled="0"/><subcategory subcat_id="53" subcat_name="Florist" cat_id="13" is_disabled="0"/><subcategory subcat_id="377" subcat_name="Florists" cat_id="14" is_disabled="0"/><subcategory subcat_id="163" subcat_name="Forklift" cat_id="13" is_disabled="0"/><subcategory subcat_id="164" subcat_name="Formal Wear" cat_id="13" is_disabled="0"/><subcategory subcat_id="352" subcat_name="Framing" cat_id="14" is_disabled="0"/><subcategory subcat_id="165" subcat_name="Framing" cat_id="13" is_disabled="0"/><subcategory subcat_id="166" subcat_name="Fruit Baskets" cat_id="13" is_disabled="0"/><subcategory subcat_id="167" subcat_name="Fullfillment Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="9" subcat_name="Function Room" cat_id="13" is_disabled="0"/><subcategory subcat_id="404" subcat_name="Fundraising" cat_id="13" is_disabled="0"/><subcategory subcat_id="168" subcat_name="Fur Sales &amp; Repairs" cat_id="13" is_disabled="0"/><subcategory subcat_id="463" subcat_name="Furniture " cat_id="14" is_disabled="0"/><subcategory subcat_id="169" subcat_name="Furniture Sales" cat_id="13" is_disabled="0"/><subcategory subcat_id="403" subcat_name="Gambling" cat_id="13" is_disabled="0"/><subcategory subcat_id="443" subcat_name="Gardening Supplies" cat_id="13" is_disabled="0"/><subcategory subcat_id="170" subcat_name="Gift Baskets" cat_id="13" is_disabled="0"/><subcategory subcat_id="321" subcat_name="Gift Certificate" cat_id="11" is_disabled="0"/><subcategory subcat_id="351" subcat_name="Gifts" cat_id="14" is_disabled="0"/><subcategory subcat_id="378" subcat_name="Gifts" cat_id="13" is_disabled="0"/><subcategory subcat_id="18" subcat_name="Glass" cat_id="13" is_disabled="0"/><subcategory subcat_id="171" subcat_name="Golf" cat_id="13" is_disabled="0"/><subcategory subcat_id="172" subcat_name="Graffiti Removal" cat_id="13" is_disabled="0"/><subcategory subcat_id="173" subcat_name="Graphic Design" cat_id="13" is_disabled="0"/><subcategory subcat_id="385" subcat_name="Greater Boston" cat_id="20" is_disabled="0"/><subcategory subcat_id="407" subcat_name="Gun Safety" cat_id="13" is_disabled="0"/><subcategory subcat_id="408" subcat_name="Guns" cat_id="13" is_disabled="0"/><subcategory subcat_id="174" subcat_name="Gutter Cleaning" cat_id="13" is_disabled="0"/><subcategory subcat_id="175" subcat_name="Hair Removal" cat_id="13" is_disabled="0"/><subcategory subcat_id="176" subcat_name="Hair Replacement Clinic" cat_id="13" is_disabled="0"/><subcategory subcat_id="177" subcat_name="Hair Salon" cat_id="13" is_disabled="0"/><subcategory subcat_id="448" subcat_name="Hammocks" cat_id="13" is_disabled="0"/><subcategory subcat_id="405" subcat_name="Handyman" cat_id="13" is_disabled="0"/><subcategory subcat_id="326" subcat_name="Health &amp; Beauty" cat_id="14" is_disabled="0"/><subcategory subcat_id="179" subcat_name="Hearing Aids" cat_id="13" is_disabled="0"/><subcategory subcat_id="380" subcat_name="Heating" cat_id="13" is_disabled="0"/><subcategory subcat_id="355" subcat_name="Home Goods" cat_id="14" is_disabled="0"/><subcategory subcat_id="180" subcat_name="Home Inspections" cat_id="13" is_disabled="0"/><subcategory subcat_id="299" subcat_name="Home Theater - Installs" cat_id="13" is_disabled="0"/><subcategory subcat_id="419" subcat_name="Hot Air Balloon" cat_id="13" is_disabled="0"/><subcategory subcat_id="420" subcat_name="Hot Air Balloon" cat_id="19" is_disabled="0"/><subcategory subcat_id="68" subcat_name="Hotel" cat_id="11" is_disabled="0"/><subcategory subcat_id="269" subcat_name="House" cat_id="11" is_disabled="0"/><subcategory subcat_id="379" subcat_name="HVAC" cat_id="13" is_disabled="0"/><subcategory subcat_id="181" subcat_name="Hypnotherapy" cat_id="13" is_disabled="0"/><subcategory subcat_id="460" subcat_name="Ice Cream" cat_id="14" is_disabled="0"/><subcategory subcat_id="347" subcat_name="Ice Cream" cat_id="17" is_disabled="0"/><subcategory subcat_id="183" subcat_name="Ice Cream" cat_id="13" is_disabled="0"/><subcategory subcat_id="425" subcat_name="Impersonators" cat_id="19" is_disabled="0"/><subcategory subcat_id="136" subcat_name="Implants" cat_id="13" is_disabled="0"/><subcategory subcat_id="456" subcat_name="Inn" cat_id="11" is_disabled="0"/><subcategory subcat_id="271" subcat_name="Interior Design" cat_id="13" is_disabled="0"/><subcategory subcat_id="274" subcat_name="Internet Marketing" cat_id="13" is_disabled="0"/><subcategory subcat_id="43" subcat_name="Italian" cat_id="17" is_disabled="0"/><subcategory subcat_id="26" subcat_name="Jewelers" cat_id="14" is_disabled="0"/><subcategory subcat_id="186" subcat_name="Jewelry" cat_id="13" is_disabled="0"/><subcategory subcat_id="449" subcat_name="Jewelry Repair" cat_id="13" is_disabled="0"/><subcategory subcat_id="187" subcat_name="Jewlery Appraisals" cat_id="13" is_disabled="0"/><subcategory subcat_id="188" subcat_name="Junk Removal" cat_id="13" is_disabled="0"/><subcategory subcat_id="189" subcat_name="Karate" cat_id="13" is_disabled="0"/><subcategory subcat_id="190" subcat_name="Kayak Rentals" cat_id="13" is_disabled="0"/><subcategory subcat_id="191" subcat_name="Landscaping" cat_id="13" is_disabled="0"/><subcategory subcat_id="361" subcat_name="Laser Tag" cat_id="19" is_disabled="0"/><subcategory subcat_id="363" subcat_name="Laser Tag" cat_id="13" is_disabled="0"/><subcategory subcat_id="370" subcat_name="Lasik Eye Surgery" cat_id="13" is_disabled="0"/><subcategory subcat_id="192" subcat_name="Laundry Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="447" subcat_name="Lawn Care" cat_id="13" is_disabled="0"/><subcategory subcat_id="483" subcat_name="Legal Staffing" cat_id="13" is_disabled="0"/><subcategory subcat_id="454" subcat_name="Life Coach" cat_id="13" is_disabled="0"/><subcategory subcat_id="304" subcat_name="Light Fixtures" cat_id="13" is_disabled="0"/><subcategory subcat_id="193" subcat_name="Limousine" cat_id="13" is_disabled="0"/><subcategory subcat_id="197" subcat_name="Line Striping" cat_id="13" is_disabled="0"/><subcategory subcat_id="337" subcat_name="Live Music" cat_id="19" is_disabled="0"/><subcategory subcat_id="198" subcat_name="Locksmith" cat_id="13" is_disabled="0"/><subcategory subcat_id="199" subcat_name="Luggage" cat_id="13" is_disabled="0"/><subcategory subcat_id="200" subcat_name="Magazine Subscriptions" cat_id="13" is_disabled="0"/><subcategory subcat_id="201" subcat_name="Magician" cat_id="13" is_disabled="0"/><subcategory subcat_id="310" subcat_name="Magician" cat_id="19" is_disabled="0"/><subcategory subcat_id="202" subcat_name="Mailing Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="418" subcat_name="Maine" cat_id="20" is_disabled="0"/><subcategory subcat_id="203" subcat_name="Manicures" cat_id="13" is_disabled="0"/><subcategory subcat_id="204" subcat_name="Marina" cat_id="13" is_disabled="0"/><subcategory subcat_id="331" subcat_name="Marketing " cat_id="13" is_disabled="0"/><subcategory subcat_id="205" subcat_name="Martial Arts" cat_id="13" is_disabled="0"/><subcategory subcat_id="394" subcat_name="Masonry" cat_id="13" is_disabled="0"/><subcategory subcat_id="479" subcat_name="Massachusetts" cat_id="20" is_disabled="0"/><subcategory subcat_id="24" subcat_name="Massage" cat_id="14" is_disabled="0"/><subcategory subcat_id="206" subcat_name="Massage" cat_id="13" is_disabled="0"/><subcategory subcat_id="45" subcat_name="Massage" cat_id="2" is_disabled="0"/><subcategory subcat_id="207" subcat_name="Mats" cat_id="13" is_disabled="0"/><subcategory subcat_id="208" subcat_name="Mattress &amp; Box Springs" cat_id="13" is_disabled="0"/><subcategory subcat_id="390" subcat_name="Medical Supplies" cat_id="13" is_disabled="0"/><subcategory subcat_id="350" subcat_name="Mediterranean" cat_id="17" is_disabled="0"/><subcategory subcat_id="209" subcat_name="Meeting Rooms" cat_id="13" is_disabled="0"/><subcategory subcat_id="324" subcat_name="Members" cat_id="2" is_disabled="0"/><subcategory subcat_id="442" subcat_name="Merrimack Valley" cat_id="20" is_disabled="0"/><subcategory subcat_id="210" subcat_name="Message on Hold" cat_id="13" is_disabled="0"/><subcategory subcat_id="384" subcat_name="Metro West" cat_id="20" is_disabled="0"/><subcategory subcat_id="328" subcat_name="Mexican" cat_id="17" is_disabled="0"/><subcategory subcat_id="211" subcat_name="Miniature Golf" cat_id="13" is_disabled="0"/><subcategory subcat_id="416" subcat_name="Miniature Golf" cat_id="19" is_disabled="0"/><subcategory subcat_id="19" subcat_name="Mirrors" cat_id="13" is_disabled="0"/><subcategory subcat_id="46" subcat_name="Mobile" cat_id="12" is_disabled="0"/><subcategory subcat_id="212" subcat_name="Monuments" cat_id="13" is_disabled="0"/><subcategory subcat_id="213" subcat_name="Mortgage Company" cat_id="13" is_disabled="0"/><subcategory subcat_id="266" subcat_name="Motel" cat_id="11" is_disabled="0"/><subcategory subcat_id="432" subcat_name="Motorcycle Painting" cat_id="13" is_disabled="0"/><subcategory subcat_id="214" subcat_name="Moving Company" cat_id="13" is_disabled="0"/><subcategory subcat_id="455" subcat_name="Muscian " cat_id="19" is_disabled="0"/><subcategory subcat_id="291" subcat_name="Musician" cat_id="12" is_disabled="0"/><subcategory subcat_id="285" subcat_name="Musician" cat_id="13" is_disabled="0"/><subcategory subcat_id="387" subcat_name="New Hampshire" cat_id="20" is_disabled="0"/><subcategory subcat_id="434" subcat_name="New York" cat_id="20" is_disabled="0"/><subcategory subcat_id="79" subcat_name="Newspaper Advertising" cat_id="13" is_disabled="0"/><subcategory subcat_id="382" subcat_name="North Shore" cat_id="20" is_disabled="0"/><subcategory subcat_id="329" subcat_name="Nutrition" cat_id="13" is_disabled="0"/><subcategory subcat_id="330" subcat_name="Nutritionist" cat_id="13" is_disabled="0"/><subcategory subcat_id="216" subcat_name="Office Furniture" cat_id="13" is_disabled="0"/><subcategory subcat_id="376" subcat_name="Office Space" cat_id="13" is_disabled="0"/><subcategory subcat_id="217" subcat_name="Optometrist" cat_id="13" is_disabled="0"/><subcategory subcat_id="218" subcat_name="Oral Surgeon" cat_id="13" is_disabled="0"/><subcategory subcat_id="137" subcat_name="Oral Surgery" cat_id="13" is_disabled="0"/><subcategory subcat_id="283" subcat_name="Orchestra" cat_id="13" is_disabled="0"/><subcategory subcat_id="138" subcat_name="Orthodontist" cat_id="13" is_disabled="0"/><subcategory subcat_id="389" subcat_name="Orthopedic Braces" cat_id="13" is_disabled="0"/><subcategory subcat_id="313" subcat_name="Packing Supplies" cat_id="13" is_disabled="0"/><subcategory subcat_id="319" subcat_name="Pain Management" cat_id="13" is_disabled="0"/><subcategory subcat_id="362" subcat_name="Paintball" cat_id="13" is_disabled="0"/><subcategory subcat_id="338" subcat_name="Paintball" cat_id="19" is_disabled="0"/><subcategory subcat_id="301" subcat_name="Painter-Faux Painting" cat_id="13" is_disabled="0"/><subcategory subcat_id="345" subcat_name="Painting" cat_id="13" is_disabled="0"/><subcategory subcat_id="401" subcat_name="Parites" cat_id="13" is_disabled="0"/><subcategory subcat_id="34" subcat_name="Party Rentals" cat_id="13" is_disabled="0"/><subcategory subcat_id="311" subcat_name="Party Rentals" cat_id="19" is_disabled="0"/><subcategory subcat_id="38" subcat_name="Patriots" cat_id="9" is_disabled="0"/><subcategory subcat_id="439" subcat_name="Patrol Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="220" subcat_name="Paving" cat_id="13" is_disabled="0"/><subcategory subcat_id="221" subcat_name="Pawn Shop" cat_id="13" is_disabled="0"/><subcategory subcat_id="222" subcat_name="Payroll Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="139" subcat_name="Periodontist" cat_id="13" is_disabled="0"/><subcategory subcat_id="224" subcat_name="Personal Trainer" cat_id="13" is_disabled="0"/><subcategory subcat_id="50" subcat_name="Pest Management" cat_id="13" is_disabled="0"/><subcategory subcat_id="35" subcat_name="Pet Services" cat_id="13" is_disabled="0"/><subcategory subcat_id="225" subcat_name="Pet Store" cat_id="13" is_disabled="0"/><subcategory subcat_id="367" subcat_name="Pet Store" cat_id="14" is_disabled="0"/><subcategory subcat_id="226" subcat_name="Phone Cards" cat_id="13" is_disabled="0"/><subcategory subcat_id="392" subcat_name="Photo Restoration" cat_id="13" is_disabled="0"/><subcategory subcat_id="227" subcat_name="Photographer" cat_id="13" is_disabled="0"/><subcategory subcat_id="312" subcat_name="Photographers" cat_id="19" is_disabled="0"/><subcategory subcat_id="342" subcat_name="Physical Therapy" cat_id="13" is_disabled="0"/><subcategory subcat_id="228" subcat_name="Pizza" cat_id="13" is_disabled="0"/><subcategory subcat_id="29" subcat_name="Pizza" cat_id="17" is_disabled="0"/><subcategory subcat_id="279" subcat_name="Plumbing" cat_id="13" is_disabled="0"/><subcategory subcat_id="229" subcat_name="Power Washing" cat_id="13" is_disabled="0"/><subcategory subcat_id="5" subcat_name="Print" cat_id="12" is_disabled="0"/><subcategory subcat_id="451" subcat_name="Printer Repair" cat_id="13" is_disabled="0"/><subcategory subcat_id="230" subcat_name="Printing" cat_id="13" is_disabled="0"/><subcategory subcat_id="231" subcat_name="Property Inspections" cat_id="13" is_disabled="0"/><subcategory subcat_id="232" subcat_name="Psychiatrist" cat_id="13" is_disabled="0"/><subcategory subcat_id="424" subcat_name="Psychic Entertainment" cat_id="19" is_disabled="0"/><subcategory subcat_id="233" subcat_name="Psychic Entertainment" cat_id="13" is_disabled="0"/><subcategory subcat_id="22" subcat_name="Radio" cat_id="12" is_disabled="0"/><subcategory subcat_id="80" subcat_name="Radio Advertising" cat_id="13" is_disabled="0"/><subcategory subcat_id="234" subcat_name="Rags &amp; Cloths" cat_id="13" is_disabled="0"/><subcategory subcat_id="14" subcat_name="Real Estate" cat_id="16" is_disabled="0"/><subcategory subcat_id="375" subcat_name="Real Estate Rental" cat_id="13" is_disabled="0"/><subcategory subcat_id="6" subcat_name="Red Sox" cat_id="9" is_disabled="0"/><subcategory subcat_id="267" subcat_name="Resort" cat_id="11" is_disabled="0"/><subcategory subcat_id="56" subcat_name="Restaurant" cat_id="13" is_disabled="0"/><subcategory subcat_id="15" subcat_name="Restaurant" cat_id="2" is_disabled="0"/><subcategory subcat_id="23" subcat_name="Restaurant" cat_id="14" is_disabled="0"/><subcategory subcat_id="41" subcat_name="Revolution" cat_id="9" is_disabled="0"/><subcategory subcat_id="409" subcat_name="Rhode Island" cat_id="20" is_disabled="0"/><subcategory subcat_id="235" subcat_name="Roofing" cat_id="13" is_disabled="0"/><subcategory subcat_id="476" subcat_name="Route 24 Area" cat_id="20" is_disabled="0"/><subcategory subcat_id="356" subcat_name="Rugs" cat_id="13" is_disabled="0"/><subcategory subcat_id="236" subcat_name="Sales Training" cat_id="13" is_disabled="0"/><subcategory subcat_id="32" subcat_name="School" cat_id="13" is_disabled="0"/><subcategory subcat_id="333" subcat_name="Seafood" cat_id="17" is_disabled="0"/><subcategory subcat_id="143" subcat_name="Seal Coating" cat_id="13" is_disabled="0"/><subcategory subcat_id="357" subcat_name="Secretarial Services" cat_id="13" is_disabled="0"/><subcategory subcat_id="438" subcat_name="Security Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="194" subcat_name="Sedan Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="477" subcat_name="Shipping" cat_id="13" is_disabled="0"/><subcategory subcat_id="317" subcat_name="Shipping Supplies" cat_id="13" is_disabled="0"/><subcategory subcat_id="237" subcat_name="Signs &amp; Banners" cat_id="13" is_disabled="0"/><subcategory subcat_id="294" subcat_name="Singer" cat_id="13" is_disabled="0"/><subcategory subcat_id="239" subcat_name="Ski Lift Tickets" cat_id="13" is_disabled="0"/><subcategory subcat_id="440" subcat_name="Ski Passes" cat_id="14" is_disabled="0"/><subcategory subcat_id="441" subcat_name="Ski Passes" cat_id="19" is_disabled="0"/><subcategory subcat_id="320" subcat_name="Ski Passes" cat_id="9" is_disabled="0"/><subcategory subcat_id="240" subcat_name="Skin Care" cat_id="13" is_disabled="0"/><subcategory subcat_id="241" subcat_name="Sky Diving" cat_id="13" is_disabled="0"/><subcategory subcat_id="417" subcat_name="Sky Diving" cat_id="19" is_disabled="0"/><subcategory subcat_id="453" subcat_name="Snow Plowing" cat_id="13" is_disabled="0"/><subcategory subcat_id="300" subcat_name="Sound System Installations" cat_id="13" is_disabled="0"/><subcategory subcat_id="383" subcat_name="South Shore" cat_id="20" is_disabled="0"/><subcategory subcat_id="306" subcat_name="Speech Improvement" cat_id="13" is_disabled="0"/><subcategory subcat_id="426" subcat_name="Sporting Goods" cat_id="14" is_disabled="0"/><subcategory subcat_id="412" subcat_name="Sports" cat_id="19" is_disabled="0"/><subcategory subcat_id="44" subcat_name="Sports Bar" cat_id="17" is_disabled="0"/><subcategory subcat_id="242" subcat_name="Sports Memorabilia" cat_id="13" is_disabled="0"/><subcategory subcat_id="482" subcat_name="Staffing" cat_id="13" is_disabled="0"/><subcategory subcat_id="484" subcat_name="State - Florida " cat_id="11" is_disabled="0"/><subcategory subcat_id="11" subcat_name="Storage Trailers" cat_id="13" is_disabled="0"/><subcategory subcat_id="42" subcat_name="Subs &amp; Sandwiches" cat_id="17" is_disabled="0"/><subcategory subcat_id="398" subcat_name="Summer Camp" cat_id="13" is_disabled="0"/><subcategory subcat_id="457" subcat_name="Summer Trade Ideas" cat_id="12" is_disabled="0"/><subcategory subcat_id="458" subcat_name="Summer Trade Ideas" cat_id="21" is_disabled="0"/><subcategory subcat_id="480" subcat_name="Sunglasses" cat_id="13" is_disabled="0"/><subcategory subcat_id="243" subcat_name="Tanning" cat_id="13" is_disabled="0"/><subcategory subcat_id="305" subcat_name="Tax Consultants" cat_id="13" is_disabled="0"/><subcategory subcat_id="244" subcat_name="Telephone Equipment" cat_id="13" is_disabled="0"/><subcategory subcat_id="245" subcat_name="Telephone Repair" cat_id="13" is_disabled="0"/><subcategory subcat_id="358" subcat_name="Television" cat_id="12" is_disabled="0"/><subcategory subcat_id="246" subcat_name="Tennis Club &amp; Courts" cat_id="13" is_disabled="0"/><subcategory subcat_id="247" subcat_name="Tennis Lessons" cat_id="13" is_disabled="0"/><subcategory subcat_id="248" subcat_name="Tent Rentals" cat_id="13" is_disabled="0"/><subcategory subcat_id="341" subcat_name="Theater" cat_id="19" is_disabled="0"/><subcategory subcat_id="39" subcat_name="Theatre" cat_id="9" is_disabled="0"/><subcategory subcat_id="461" subcat_name="Theatre" cat_id="13" is_disabled="0"/><subcategory subcat_id="249" subcat_name="Tickets" cat_id="13" is_disabled="0"/><subcategory subcat_id="268" subcat_name="Timeshare" cat_id="11" is_disabled="0"/><subcategory subcat_id="250" subcat_name="Towing" cat_id="13" is_disabled="0"/><subcategory subcat_id="295" subcat_name="Trash Bags" cat_id="13" is_disabled="0"/><subcategory subcat_id="368" subcat_name="Travel" cat_id="14" is_disabled="0"/><subcategory subcat_id="61" subcat_name="Travel" cat_id="2" is_disabled="0"/><subcategory subcat_id="69" subcat_name="Travel" cat_id="13" is_disabled="0"/><subcategory subcat_id="343" subcat_name="Tree Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="422" subcat_name="Trolley Tour" cat_id="13" is_disabled="0"/><subcategory subcat_id="421" subcat_name="Trolley Tour" cat_id="19" is_disabled="0"/><subcategory subcat_id="303" subcat_name="Trophy" cat_id="13" is_disabled="0"/><subcategory subcat_id="49" subcat_name="Truck Repair" cat_id="13" is_disabled="0"/><subcategory subcat_id="253" subcat_name="Tuxedo Rentals" cat_id="13" is_disabled="0"/><subcategory subcat_id="254" subcat_name="Tuxedo Sales" cat_id="13" is_disabled="0"/><subcategory subcat_id="411" subcat_name="Upholstering" cat_id="13" is_disabled="0"/><subcategory subcat_id="410" subcat_name="Upholstery" cat_id="13" is_disabled="0"/><subcategory subcat_id="255" subcat_name="Vacuums" cat_id="13" is_disabled="0"/><subcategory subcat_id="195" subcat_name="Van Service" cat_id="13" is_disabled="0"/><subcategory subcat_id="445" subcat_name="Vent Cleaning" cat_id="13" is_disabled="0"/><subcategory subcat_id="399" subcat_name="Vermont" cat_id="20" is_disabled="0"/><subcategory subcat_id="256" subcat_name="Videographer" cat_id="13" is_disabled="0"/><subcategory subcat_id="307" subcat_name="Vocal Training" cat_id="13" is_disabled="0"/><subcategory subcat_id="286" subcat_name="Vocalist" cat_id="13" is_disabled="0"/><subcategory subcat_id="13" subcat_name="Wanted" cat_id="16" is_disabled="0"/><subcategory subcat_id="354" subcat_name="Warehouse Equipment" cat_id="13" is_disabled="0"/><subcategory subcat_id="257" subcat_name="Waterfall Display" cat_id="13" is_disabled="0"/><subcategory subcat_id="339" subcat_name="Waterpark" cat_id="19" is_disabled="0"/><subcategory subcat_id="369" subcat_name="Waterpark" cat_id="13" is_disabled="0"/><subcategory subcat_id="273" subcat_name="Web Site Design" cat_id="13" is_disabled="0"/><subcategory subcat_id="185" subcat_name="Web Site Hosting" cat_id="13" is_disabled="0"/><subcategory subcat_id="258" subcat_name="Wedding Cakes" cat_id="13" is_disabled="0"/><subcategory subcat_id="450" subcat_name="Wedding Ideas" cat_id="13" is_disabled="0"/><subcategory subcat_id="259" subcat_name="Whale Watch" cat_id="13" is_disabled="0"/><subcategory subcat_id="388" subcat_name="Wicker Furniture" cat_id="13" is_disabled="0"/><subcategory subcat_id="406" subcat_name="Window Cleaning" cat_id="13" is_disabled="0"/><subcategory subcat_id="346" subcat_name="Window Tinting" cat_id="13" is_disabled="0"/><subcategory subcat_id="260" subcat_name="Window Treatments" cat_id="13" is_disabled="0"/><subcategory subcat_id="308" subcat_name="Word Processing" cat_id="13" is_disabled="0"/><subcategory subcat_id="262" subcat_name="Yarn &amp; Accessories" cat_id="13" is_disabled="0"/><subcategory subcat_id="263" subcat_name="Yoga" cat_id="13" is_disabled="0"/><subcategory subcat_id="264" subcat_name="Zoo" cat_id="13" is_disabled="0"/></subcategories><types><type type_id="1">Inventory</type><type type_id="2">Ticket</type><type type_id="3">user</type><type type_id="4">Travel</type><type type_id="5">Informational</type><type type_id="6">boolean_history</type><type type_id="7">date_history</type><type type_id="8">double_history</type><type type_id="9">int_history</type><type type_id="10">text_history</type><type type_id="11">time_history</type><type type_id="12">varchar_history</type><type type_id="13">site_message</type><type type_id="14">formatted_message</type><type type_id="15">site_variable</type></types><lookup_table_statuses><status status_id="2" is_disabled="">Active - In Directory</status><status status_id="6" is_disabled="">Broker Active - Do Not List</status><status status_id="5" is_disabled="">Delete</status><status status_id="3" is_disabled="">Standby - Not in Directory</status></lookup_table_statuses><entity_grouping><entity_grouping_record><entity_grouping_field field_name="eg_id">31</entity_grouping_field><entity_grouping_field field_name="eg_type">2</entity_grouping_field><entity_grouping_field field_name="eid">316</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">32</entity_grouping_field><entity_grouping_field field_name="eg_type">1</entity_grouping_field><entity_grouping_field field_name="eid">316</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">34</entity_grouping_field><entity_grouping_field field_name="eg_type">3</entity_grouping_field><entity_grouping_field field_name="eid">188</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">38</entity_grouping_field><entity_grouping_field field_name="eg_type">1</entity_grouping_field><entity_grouping_field field_name="eid">284</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">39</entity_grouping_field><entity_grouping_field field_name="eg_type">2</entity_grouping_field><entity_grouping_field field_name="eid">284</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">47</entity_grouping_field><entity_grouping_field field_name="eg_type">2</entity_grouping_field><entity_grouping_field field_name="eid">187</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">50</entity_grouping_field><entity_grouping_field field_name="eg_type">2</entity_grouping_field><entity_grouping_field field_name="eid">535</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">51</entity_grouping_field><entity_grouping_field field_name="eg_type">1</entity_grouping_field><entity_grouping_field field_name="eid">411</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">52</entity_grouping_field><entity_grouping_field field_name="eg_type">2</entity_grouping_field><entity_grouping_field field_name="eid">411</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">53</entity_grouping_field><entity_grouping_field field_name="eg_type">1</entity_grouping_field><entity_grouping_field field_name="eid">348</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">56</entity_grouping_field><entity_grouping_field field_name="eg_type">1</entity_grouping_field><entity_grouping_field field_name="eid">720</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">59</entity_grouping_field><entity_grouping_field field_name="eg_type">1</entity_grouping_field><entity_grouping_field field_name="eid">490</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">60</entity_grouping_field><entity_grouping_field field_name="eg_type">1</entity_grouping_field><entity_grouping_field field_name="eid">434</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">61</entity_grouping_field><entity_grouping_field field_name="eg_type">1</entity_grouping_field><entity_grouping_field field_name="eid">595</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">62</entity_grouping_field><entity_grouping_field field_name="eg_type">1</entity_grouping_field><entity_grouping_field field_name="eid">468</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">63</entity_grouping_field><entity_grouping_field field_name="eg_type">1</entity_grouping_field><entity_grouping_field field_name="eid">749</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">66</entity_grouping_field><entity_grouping_field field_name="eg_type">2</entity_grouping_field><entity_grouping_field field_name="eid">595</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">67</entity_grouping_field><entity_grouping_field field_name="eg_type">2</entity_grouping_field><entity_grouping_field field_name="eid">434</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">68</entity_grouping_field><entity_grouping_field field_name="eg_type">2</entity_grouping_field><entity_grouping_field field_name="eid">468</entity_grouping_field></entity_grouping_record><entity_grouping_record><entity_grouping_field field_name="eg_id">69</entity_grouping_field><entity_grouping_field field_name="eg_type">2</entity_grouping_field><entity_grouping_field field_name="eid">749</entity_grouping_field></entity_grouping_record></entity_grouping><entity_grouping_types><entity_grouping_types_record><entity_grouping_types_field field_name="eg_type_id">1</entity_grouping_types_field><entity_grouping_types_field field_name="eg_type_name">Featured</entity_grouping_types_field></entity_grouping_types_record><entity_grouping_types_record><entity_grouping_types_field field_name="eg_type_id">2</entity_grouping_types_field><entity_grouping_types_field field_name="eg_type_name">Popular Trades</entity_grouping_types_field></entity_grouping_types_record><entity_grouping_types_record><entity_grouping_types_field field_name="eg_type_id">3</entity_grouping_types_field><entity_grouping_types_field field_name="eg_type_name">Trade of the Day</entity_grouping_types_field></entity_grouping_types_record></entity_grouping_types></myedbroot>
+</xmp><p>XSL:<br><xmp><?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xsl:stylesheet [
+<!ENTITY nbsp "&#160;">
+<!ENTITY copy "&#169;">
+<!ENTITY reg "&#174;">
+<!ENTITY trade "&#8482;">
+<!ENTITY mdash "&#8212;">
+<!ENTITY ldquo "&#8220;">
+<!ENTITY rdquo "&#8221;">
+<!ENTITY pound "&#163;">
+<!ENTITY yen "&#165;">
+<!ENTITY euro "&#8364;">
+]>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pl="urn:myedb:propertylist" version="1.0">
+<xsl:include href="../../include/page_sections/leftnavdiv.xsl"/>
+<xsl:include href="../../include/page_sections/topstripdiv.xsl"/>
+<xsl:include href="../pageframe2.xsl"/>
+<xsl:include href="../PageContents/show_order_history_pgct.xsl"/>
+<xsl:include href="../../include/head_includes.xsl"/>
+<xsl:include href="order_history_table.xsl"/>
+<xsl:param name="order_hist_eid"/>
+<xsl:param name="type_id"/>
+<xsl:output method="html" encoding="utf-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+<xsl:template match="/">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Order History </title>
+
+
+    <script type="text/javascript">
+	var page_no = 1;
+	var sort_order = "desc";
+	var order_by = "date_added";
+	
+    function revealDiv(n)
+    {
+		page_no = n;//old function for single eid: get_product_order_history_page_xml
+		var url = '?target_component[]=TransMgmtFacade&amp;target_function[]=get_order_history_page_xml&amp;'+
+		<xsl:if test="string-length($order_hist_eid) &gt; 0">'eid=<xsl:value-of select="$order_hist_eid"/>&amp;'+</xsl:if>
+		<xsl:if test="string-length($type_id) &gt; 0">'type_id=<xsl:value-of select="$type_id"/>&amp;'+</xsl:if>
+		'o='+order_by+'&amp;od='+sort_order+'&amp;pgn='+page_no+'&amp;OF_passthru='+
+		<xsl:if test="string-length($type_id) = 0">'admin_order_history_table'</xsl:if>
+		<xsl:if test="string-length($type_id) &gt; 0">'order_history_table_travel'</xsl:if>
+		
+	//	HTML_AJAX.replace("order_history_page_div", );
+
+    	HTML_AJAX.grab(url,grabCallback);
+  	}
+	
+	function grabCallback(result) {
+    	document.getElementById('order_history_page_div').innerHTML = result;
+
+		//setTimeout(pagerLinks(n), 5000)
+		pagerLinks(page_no);
+
+    }
+	function pagerLinks(n)
+	{
+		HTML_AJAX.replace('target', 'index.php?target_component[]=RecordIniFacade&amp;target_function[]=donothing&amp;output_function=output_html&amp;pageID='+n);
+	
+	}
+    </script>
+
+		<xsl:call-template name="head_include_tags"/>
+		<style>
+			th {text-align:center;}
+		</style>
+</head>
+<body>
+		<xsl:call-template name="pageframe">
+		</xsl:call-template>
+</body>
+<script type="text/javascript">
+	revealDiv(1); 
+	function revealDiv_online(o)
+	{
+		order_by = o;
+		revealDiv(page_no);
+	}
+	function revealDivCurrentCallBack(result)
+	{
+		alert(result);
+		revealDiv(page_no);
+	}
+	function set_sort_order()
+	{// alert('hello' + jQuery('#chk_sort_order_change:checked').val());
+		var asc = jQuery('#chk_sort_order_change').is(':checked');
+		//alert("hello"+ jQuery('#chk_sort_order_change').is(':checked'));
+		if (asc)
+		{
+			sort_order = "asc";
+		}
+		else
+		{ 
+			sort_order = "desc";
+		}
+	}
+</script>
+</html>
+
+</xsl:template>
+	  <xsl:template name="page_frame_2_title">
+		Order History 
+		</xsl:template>
+
+</xsl:stylesheet>
+</xmp></div>
